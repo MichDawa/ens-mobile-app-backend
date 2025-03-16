@@ -2,55 +2,27 @@
 
 namespace Sample\Controller;
 
-use Monolog\Logger;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\JsonModel;
-use App\Library\Exception\ApplicationException;
+use Sample\Service\ParameterParser;
 use Assert\InvalidArgumentException;
 
 class SampleController extends AbstractActionController {
+    protected ParameterParser $parameterParser;
 
-    /**
-     * @var Logger
-     */
-    private $logger;
-
-    public function __construct(
-        Logger $logger,
-    ) {
-        $this->logger = $logger;
+    public function __construct(ParameterParser $parameterParser) {
+        $this->parameterParser = $parameterParser;
     }
 
-    // public function sampleAction() {
-    //     try {
-    //         $text = $this->params()->fromQuery('text', '');
-    //         $result = $this->appService->echoText($text);
-            
-    //         return new JsonModel([
-    //             'status' => 'success',
-    //             'data' => $result
-    //         ]);
-    //     } catch (\Exception $ex) {
-    //         return new JsonModel([
-    //             'status' => 'error',
-    //             'message' => $ex->getMessage()
-    //         ]);
-    //     }
-    // }
-
-    public function sampleAction() {
+    public function testAction() {
         try {
-            // $params = $this->getParams();
-            
-            // $forReturn = $params;
-            $this->logger->info('Sample action called');
-            return new JsonModel(["Hello World"]);
-        } catch (ApplicationException $ex) {
-            return $this->processApplicationError($ex);
+            $params = $this->parameterParser->getParams($this);
+
+            return new JsonModel(['helloworldthings' => $params['value']]);
         } catch (InvalidArgumentException $ex) {
-            return $this->processApplicationError($ex);
+            return $this->parameterParser->processApplicationError($ex);
         } catch (\Exception $ex) {
-            return $this->processUnexpectedError($ex);
+            return $this->parameterParser->processUnexpectedError($ex);
         }
     }
 }

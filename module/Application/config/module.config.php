@@ -5,11 +5,12 @@ namespace Application;
 use Laminas\Router\Http\Literal;
 use Laminas\ServiceManager\Factory\InvokableFactory;
 
+
 return [
     'router' => [
         'routes' => [
             'home' => [
-                'type' => Literal::class,
+                'type'    => Literal::class,
                 'options' => [
                     'route'    => '/',
                     'defaults' => [
@@ -19,7 +20,7 @@ return [
                 ],
             ],
             'application' => [
-                'type' => Literal::class,
+                'type'    => Literal::class,
                 'options' => [
                     'route'    => '/application[/:action]',
                     'defaults' => [
@@ -37,13 +38,22 @@ return [
     ],
     'service_manager' => [
         'factories' => [
-            // for the factories
-            \App\Library\Infrastructure\Events\DoctrineEventSubscriber::class => \App\Library\Infrastructure\Events\DoctrineEventSubscriberFactory::class,
+            // application factories
         ],
         'delegators' => [
-            \App\Library\Infrastructure\Events\DoctrineEventSubscriber::class => [
-                0 => \App\Library\Infrastructure\Logging\LoggerDelegatorFactory::class,
-            ]
+            // delegators
+        ],
+    ],
+    'bt-log' => [
+        'app-log' => [
+            'name'  => 'app-log',
+            'path'  => __DIR__ . '/../../data/logs/application.log',
+            'level' => \Monolog\Level::Debug,
+        ],
+        'sql-log' => [
+            'name'  => 'sql-log',
+            'path'  => __DIR__ . '/../../data/logs/sql.log',
+            'level' => \Monolog\Level::Debug,
         ],
     ],
     'view_manager' => [
@@ -53,16 +63,17 @@ return [
         'not_found_template'       => 'error/404',
         'exception_template'       => 'error/index',
         'template_map' => [
-            'layout/layout'           => __DIR__ . '/../view/layout/layout.phtml',
-            'layout/emaillayout'           => __DIR__ . '/../view/layout/email.phtml',
-            'layout/emailnotification'           => __DIR__ . '/../view/layout/emailnotification.phtml',
-            'application/index/index' => __DIR__ . '/../view/application/index/index.phtml',
-            'error/404'               => __DIR__ . '/../view/error/404.phtml',
-            'error/index'             => __DIR__ . '/../view/error/index.phtml',
+            'layout/layout'             => __DIR__ . '/../view/layout/layout.phtml',
+            'layout/emaillayout'        => __DIR__ . '/../view/layout/email.phtml',
+            'layout/emailnotification'  => __DIR__ . '/../view/layout/emailnotification.phtml',
+            'application/index/index'   => __DIR__ . '/../view/application/index/index.phtml',
+            'error/404'                 => __DIR__ . '/../view/error/404.phtml',
+            'error/index'               => __DIR__ . '/../view/error/index.phtml',
         ],
         'template_path_stack' => [
             __DIR__ . '/../view',
         ],
     ],
 ];
+
 

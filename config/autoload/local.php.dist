@@ -13,4 +13,18 @@
  */
 
 return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => Doctrine\DBAL\Driver\PDO\MySQL\Driver::class,
+                'params' => [
+                    'host'     => 'localhost',
+                    'user'     => 'root',
+                    'password' => '',
+                    'dbname'   => 'ens_mobile_app',
+                    'driver'   => 'pdo_mysql',
+                ],
+            ],
+        ],
+    ],
 ];

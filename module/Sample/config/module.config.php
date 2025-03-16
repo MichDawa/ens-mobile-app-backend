@@ -2,23 +2,20 @@
 // File: module/Sample/config/module.config.php
 
 use Laminas\Router\Http\Segment;
-use Sample\Controller\SampleController;
-use Sample\Controller\SampleControllerFactory;
 
 return [
     'service_manager' => [
         'factories' => [
             // sample factories
+            \Sample\Service\ParameterParser::class => \Laminas\ServiceManager\Factory\InvokableFactory::class,
         ],
         'delegators' => [
-            \App\Library\Infrastructure\Events\DoctrineEventSubscriber::class => [
-                0 => \App\Library\Infrastructure\Logging\LoggerDelegatorFactory::class,
-            ],
+            // delegators
         ],
     ],
     'controllers' => [
         'factories' => [
-            SampleController::class => SampleControllerFactory::class,
+            \Sample\Controller\SampleController::class => \Sample\Factory\SampleControllerFactory::class,
         ],
     ],
     'router' => [
@@ -26,13 +23,19 @@ return [
             'sc-sample' => [
                 'type'    => Segment::class,
                 'options' => [
-                    'route'    => '/sample[/:action]',
-                    'defaults' => [
-                        'controller' => SampleController::class,
-                        'action'     => 'sample',
+                    'route' => '/sample[/:action]',
+                    'constraints' => [
+                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+                    ],
+                    'defaults'  => [
+                        'controller' => \Sample\Controller\SampleController::class,
+                        'action' => 'index',
                     ],
                 ],
             ],
         ],
+    ],
+    'view_manager' => [
+        'strategies' => ['ViewJsonStrategy'],
     ],
 ];
