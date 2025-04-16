@@ -14,7 +14,8 @@ class LocalContainerLoggerFactory implements FactoryInterface {
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         $config = $container->get('Config');
-        $logConfig = $config["bt-log"] ;//?? null;
+        $configArray = $config->toArray();
+        $logConfig = $configArray["bt-log"] ;//?? null;
         Assertion::notEmpty($logConfig, "Log Config not found.");
 
         $appLog = $logConfig["app-log"] ;//?? null;
