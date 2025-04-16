@@ -34,8 +34,7 @@
         "psr-4": {
             "Application\\": "module/Application/src/",
             "Sample\\": "module/Sample/src/",
-            "Library\\Utils\\": "library/Utils/",
-            "Library\\Infrastructure\\": "library/Infrastructure/"
+            "Library\\": "library/"
         }
     },
     "autoload-dev": {
