@@ -1,13 +1,9 @@
 <?php
-// File: module/Sample/config/module.config.php
-
-use Laminas\Router\Http\Segment;
 
 return [
     'service_manager' => [
         'factories' => [
-            // sample factories
-            \Sample\Service\ParameterParser::class => \Laminas\ServiceManager\Factory\InvokableFactory::class,
+            \Library\Utils\ParameterParser::class => \Laminas\ServiceManager\Factory\InvokableFactory::class,
         ],
         'delegators' => [
             // delegators
@@ -21,21 +17,39 @@ return [
     'router' => [
         'routes' => [
             'sc-sample' => [
-                'type'    => Segment::class,
+                'type'    => Laminas\Router\Http\Segment::class,
                 'options' => [
                     'route' => '/sample[/:action]',
-                    'constraints' => [
-                        'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
-                    ],
                     'defaults'  => [
                         'controller' => \Sample\Controller\SampleController::class,
-                        'action' => 'index',
                     ],
                 ],
-            ],
+            ], 
         ],
     ],
-    'view_manager' => [
-        'strategies' => ['ViewJsonStrategy'],
+    'api-tools-versioning' => [
+        'uri' => [
+            0 => 'sc-sample',
+        ],
+    ],
+    'api-tools-rpc' => [
+        \Sample\Controller\SampleController::class => [
+            'service_name' => 'Sample',
+            'http_methods' => [
+                0 => 'GET',
+                1 => 'POST',
+            ],
+            'route_name' => 'sc-sample',
+        ],
+    ],
+    'api-tools-content-negotiation' => [
+        'controllers' => [
+            \Sample\Controller\SampleController::class => 'Json',
+        ],
+        'content_type_whitelist' => [
+            \Sample\Controller\SampleController::class => [
+                0 => 'application/json',
+            ],
+        ],
     ],
 ];

@@ -2,27 +2,40 @@
 
 namespace Sample\Controller;
 
-use Laminas\Mvc\Controller\AbstractActionController;
+use Library\Utils\ParameterParser;
 use Laminas\View\Model\JsonModel;
-use Sample\Service\ParameterParser;
 use Assert\InvalidArgumentException;
+use Monolog\Logger;
 
-class SampleController extends AbstractActionController {
-    protected ParameterParser $parameterParser;
+class SampleController extends ParameterParser {
 
-    public function __construct(ParameterParser $parameterParser) {
-        $this->parameterParser = $parameterParser;
+    public function __construct(
+        Logger $log
+    ) {
+        parent::__construct($log);
+    }
+
+    public function sampleAction() {
+        try {
+            $params = ['sample' => 'sample data'];
+
+            return new JsonModel($params);
+        } catch (InvalidArgumentException $ex) {
+            return $this->processApplicationError($ex);
+        } catch (\Exception $ex) {
+            return $this->processUnexpectedError($ex);
+        }
     }
 
     public function testAction() {
         try {
-            $params = $this->parameterParser->getParams($this);
+            $params = $this->getParams();
 
-            return new JsonModel(['helloworldthings' => $params['value']]);
+            return new JsonModel($params);
         } catch (InvalidArgumentException $ex) {
-            return $this->parameterParser->processApplicationError($ex);
+            return $this->processApplicationError($ex);
         } catch (\Exception $ex) {
-            return $this->parameterParser->processUnexpectedError($ex);
+            return $this->processUnexpectedError($ex);
         }
     }
 }
