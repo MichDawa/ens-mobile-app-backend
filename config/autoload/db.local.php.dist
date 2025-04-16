@@ -1,0 +1,37 @@
+<?php
+
+$local_host = 'localhost';
+$local_port = "3306";
+$local_user = "root";
+$local_password = "";
+$local_dbname = "ens_mobile_app";
+
+return [
+    'doctrine' => [
+        'connection' => [
+            'orm_default' => [
+                'driverClass' => Doctrine\DBAL\Driver\PDO\MySQL\Driver::class,
+                'params' => [
+                    'host' => $local_host,
+                    'port' => $local_port,
+                    'user' => $local_user,
+                    'password' => $local_password,
+                    'dbname' => $local_dbname,
+                    'driverOptions' => [
+                        1002 => 'SET NAMES utf8',
+                    ],
+                ],
+            ],
+        ],
+        'driver' => [
+            'ens_entity' => [
+                'cache' => 'array',
+            ],
+        ],
+        'sql_logger_collector' => [
+            'orm_default' => [
+                'sql_logger' => \Library\Infrastructure\Logging\MonologSQLLogger::class,
+            ],
+        ],
+    ],
+];
