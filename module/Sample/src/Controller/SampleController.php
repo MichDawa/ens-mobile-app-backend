@@ -5,6 +5,7 @@ namespace Sample\Controller;
 use Library\Utils\ParameterParser;
 use Laminas\View\Model\JsonModel;
 use Assert\InvalidArgumentException;
+use Library\Exception\ApplicationException;
 use Monolog\Logger;
 
 class SampleController extends ParameterParser {
@@ -20,6 +21,8 @@ class SampleController extends ParameterParser {
             $params = ['sample' => 'sample data'];
 
             return new JsonModel($params);
+        } catch (ApplicationException $ex) {
+            return $this->processApplicationError($ex);
         } catch (InvalidArgumentException $ex) {
             return $this->processApplicationError($ex);
         } catch (\Exception $ex) {
@@ -32,6 +35,8 @@ class SampleController extends ParameterParser {
             $params = $this->getParams();
 
             return new JsonModel($params);
+        } catch (ApplicationException $ex) {
+            return $this->processApplicationError($ex);
         } catch (InvalidArgumentException $ex) {
             return $this->processApplicationError($ex);
         } catch (\Exception $ex) {
