@@ -7,13 +7,21 @@ use Laminas\View\Model\JsonModel;
 use Assert\InvalidArgumentException;
 use Library\Exception\ApplicationException;
 use Monolog\Logger;
+use Sample\Service\SampleService;
 
 class SampleController extends ParameterParser {
 
+    /**
+     * @var SampleService
+     */
+    private $sampleService;
+
     public function __construct(
-        Logger $log
+        Logger $log,
+        SampleService $sampleService,
     ) {
         parent::__construct($log);
+        $this->sampleService = $sampleService;
     }
 
     public function sampleAction() {
@@ -33,8 +41,10 @@ class SampleController extends ParameterParser {
     public function testAction() {
         try {
             $params = $this->getParams();
+            
+            $forReturn = $this->sampleService->testString($params);
 
-            return new JsonModel($params);
+            return new JsonModel(['result' => $forReturn]);
         } catch (ApplicationException $ex) {
             return $this->processApplicationError($ex);
         } catch (InvalidArgumentException $ex) {

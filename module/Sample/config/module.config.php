@@ -4,6 +4,7 @@ return [
     'service_manager' => [
         'factories' => [
             \Library\Utils\ParameterParser::class => \Laminas\ServiceManager\Factory\InvokableFactory::class,
+            \Sample\Service\SampleService::class => \Sample\Service\SampleServiceFactory::class,
         ],
         'delegators' => [
             // delegators
