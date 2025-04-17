@@ -12,7 +12,7 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            \Sample\Controller\SampleController::class => \Sample\Factory\SampleControllerFactory::class,
+            \Sample\Controller\SampleController::class => \Sample\Controller\SampleControllerFactory::class,
         ],
     ],
     'router' => [

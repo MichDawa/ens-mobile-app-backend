@@ -1,6 +1,6 @@
 <?php
 
-namespace Sample\Factory;
+namespace Sample\Controller;
 
 use Sample\Controller\SampleController;
 use Laminas\ServiceManager\Factory\FactoryInterface;
