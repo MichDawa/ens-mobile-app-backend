@@ -9,7 +9,7 @@ Requirements include:
 To setup the ENS backend:
 
 ```bash
-$ rename all dist files
+$ rename all .dist files in autoload ( just remove .dist )
 ```
 
 ```bash
