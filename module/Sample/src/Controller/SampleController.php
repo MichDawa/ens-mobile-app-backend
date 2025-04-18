@@ -24,27 +24,13 @@ class SampleController extends ParameterParser {
         $this->sampleService = $sampleService;
     }
 
-    public function sampleAction() {
-        try {
-            $params = ['sample' => 'sample data'];
-
-            return new JsonModel($params);
-        } catch (ApplicationException $ex) {
-            return $this->processApplicationError($ex);
-        } catch (InvalidArgumentException $ex) {
-            return $this->processApplicationError($ex);
-        } catch (\Exception $ex) {
-            return $this->processUnexpectedError($ex);
-        }
-    }
-
-    public function testAction() {
+    public function addtestAction() {
         try {
             $params = $this->getParams();
             
-            $forReturn = $this->sampleService->testString($params);
+            $this->sampleService->testAdd($params);
 
-            return new JsonModel(['result' => $forReturn]);
+            return new JsonModel(['success' => true]);
         } catch (ApplicationException $ex) {
             return $this->processApplicationError($ex);
         } catch (InvalidArgumentException $ex) {

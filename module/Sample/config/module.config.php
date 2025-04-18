@@ -3,11 +3,17 @@
 return [
     'service_manager' => [
         'factories' => [
+            // repositories
+            \Sample\Infra\Repository\SampleRepository::class =>\Library\Infrastructure\Repository\RepositoryFactory::class,
+
+            // services
             \Library\Utils\ParameterParser::class => \Laminas\ServiceManager\Factory\InvokableFactory::class,
             \Sample\Service\SampleService::class => \Sample\Service\SampleServiceFactory::class,
         ],
         'delegators' => [
-            // delegators
+            \Sample\Service\SampleService::class => [
+                0 => \Library\Infrastructure\Logging\LoggerDelegatorFactory::class,
+            ],
         ],
     ],
     'controllers' => [

@@ -5,7 +5,7 @@ $entityPaths = [
 ];
 
 $drivers = [
-    'Application\\Infrastructure\\Entity' => 'ens_entity',
+    'Sample\\Infra\\Entity' => 'ens_entity',
 ];
 
 return [
@@ -30,6 +30,13 @@ return [
             'orm_default' => [
                 'drivers' => $drivers
             ],
+        ],
+        'configuration' => [
+            'orm_default' => [
+                'types' => [
+                    'uuid' => Ramsey\Uuid\Doctrine\UuidType::class,
+                ]
+            ]
         ],
     ],
 ];
